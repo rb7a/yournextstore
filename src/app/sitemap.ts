@@ -8,7 +8,7 @@ const Categories = [
 
 type Item = MetadataRoute.Sitemap[number];
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new stripe(process.env.STRIPE_SECRET_KEY);
 
 async function fetchProducts() {
 	const products = await stripe.products.list();
