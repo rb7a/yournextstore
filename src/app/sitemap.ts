@@ -9,15 +9,23 @@ const Categories = [
 
 type Item = MetadataRoute.Sitemap[number];
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+async function fetchProducts() {
+	const products = await stripe.products.list();
+	return products.data;
+  }
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     if (!publicUrl) {
       throw new Error("publicUrl is not defined");
     }
 
-    let products;
+//    let products;
+
     try {
-      products = await Commerce.productBrowse({ first: 100 });
+      products = await fetchProducts();
     } catch (error) {
       console.error("Error fetching products:", error);
       products = []; // Fallback to empty array if product fetch fails
